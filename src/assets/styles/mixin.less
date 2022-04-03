@@ -1,0 +1,35 @@
+// less 有哪些语法? 
+// 1. 变量
+// 2. 嵌套
+// 3. 函数 混入 - 复用
+
+
+// .box1 {
+//     width: 100px;
+//     height: 100px;
+// }
+
+// .box2 {
+//     .box1();
+// }
+
+// 下面这样写 对比上面的写法 是更好的
+//   因为函数不会被css解析 下面的代码 .box1()里面的属性只被解析了一次
+//   而上面的写法 .box1本身也会被解析一次
+// .box1(@width) {
+//     width: @width;
+//     height: @width;
+// }
+
+// .box2() {
+//     .box1(200px);
+// }
+
+// 鼠标经过上移阴影动画
+.hoverShadow () {
+    transition: all .5s;
+    &:hover {
+      transform: translate3d(0,-3px,0);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+  }
