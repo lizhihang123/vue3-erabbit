@@ -6,7 +6,7 @@
       </RouterLink>
     </li>
     <li v-for="item in list" :key="item.id"
-      @mouseenter="show(item)"
+      @mousemove="show(item)"
       @mouseleave="hide(item)">
       <RouterLink
       :to="`/category/${item.id}`"
@@ -58,6 +58,7 @@ export default {
     const hide = (item) => {
       store.commit('category/hide', item)
     }
+
     return { list, show, hide }
   }
 }
@@ -70,6 +71,11 @@ export default {
   position: relative;
   justify-content: space-around;
   padding-left: 40px;
+  &.hide {
+      transition: all .3s linear;
+      transform: none;
+      opacity: 0;
+  }
   li {
     margin-right: 40px;
     width: 38px;
@@ -97,6 +103,7 @@ export default {
     &.open {
       height: 132px;
       opacity: 1;
+      z-index: 999;
     }
     width: 1240px;
     background-color: #fff;

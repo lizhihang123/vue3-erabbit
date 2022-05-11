@@ -2,11 +2,10 @@
   <header class='app-header'>
     <div class="container">
       <h1 class="logo"><RouterLink to="/">小兔鲜</RouterLink></h1>
-
       <!-- 吸顶头部 -->
       <AppHeaderSticky />
       <!-- 头部导航 -->
-      <AppHeaderNav />
+      <AppHeaderNav :class="{hide: y >= 78}" />
       <div class="search">
         <i class="iconfont icon-search"></i>
         <input type="text" placeholder="搜一搜">
@@ -23,11 +22,25 @@
 <script>
 import AppHeaderNav from '@/components/app-header-nav.vue'
 import AppHeaderSticky from '@/components/app-header-sticky.vue'
+// import { onMounted, ref } from 'vue'
+import { useWindowScroll } from '@vueuse/core'
 export default {
   name: 'AppHeader',
   components: {
     AppHeaderNav,
     AppHeaderSticky
+  },
+  setup() {
+    // const y = ref(0)
+    // onMounted(() => {
+    //   window.onscroll = () => {
+    //     const srcollTop = document.documentElement.srcollTop
+    //     console.log(srcollTop)
+    //     y.value = srcollTop
+    //   }
+    // })
+    const { y } = useWindowScroll()
+    return { y }
   }
 
 }
@@ -36,6 +49,11 @@ export default {
 <style scoped lang='less'>
 .app-header {
   background: #fff;
+  &.hide {
+      transition: all .3s linear;
+      transform: none;
+      opacity: 0;
+  }
   .container {
     display: flex;
     align-items: center;

@@ -3,11 +3,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 export default {
-
+  setup() {
+    const show = ref(true)
+    return { show }
+  }
 }
 </script>
 
-<style>
-
+<style lang="less">
 </style>

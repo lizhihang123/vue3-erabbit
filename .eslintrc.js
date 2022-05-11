@@ -15,5 +15,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     "space-before-function-paren": [0, "always"],//函数定义时括号前面要不要有空格,
     "singleQuote": [0, "always"],//把双引号换成单引号
+    "no-useless-return": [0, "off"] // 关闭 "无用的return"
   }
 }

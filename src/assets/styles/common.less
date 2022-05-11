@@ -100,3 +100,22 @@
      line-height: 0;
      clear: both;
    }
+
+
+   
+/* 骨架屏淡出动画 */
+.fade{
+  &-leave {
+    &-active {
+      position: absolute;
+      width: 100%;
+      // transition: 名字 持续时间 延迟时间
+      // 意思是 动画持续时间是0.5s 延迟时间是 0.2s 最终从1变为0s
+      transition: opacity .5s .2s;
+      z-index: 1;
+    }
+    &-to {
+      opacity: 0;
+    }
+  }
+}

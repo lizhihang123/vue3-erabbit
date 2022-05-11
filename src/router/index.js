@@ -6,6 +6,7 @@ const layout = () => import('@/views/layout.vue')
 const home = () => import('@/views/home/index.vue')
 const topCategory = () => import('@/views/category/index.vue')
 const subCategory = () => import('@/views/category/sub.vue')
+const Goods = () => import('@/views/goods/index')
 const routes = [
   {
     path: '/',
@@ -22,6 +23,9 @@ const routes = [
       {
         path: '/category/sub/:id',
         component: subCategory
+      }, {
+        path: '/product/:id',
+        component: Goods
       }
     ]
   }
@@ -32,7 +36,10 @@ const routes = [
 // 3. 创建路由实例 路由配置内容放入
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    return { left: 0, top: 0 }
+  }
 })
 
 // 4. 导出 在main.js里面进行具体挂载

@@ -1,5 +1,5 @@
 import { topCategory } from '@/api/constant'
-import { findAllCategory } from '@/api/catagory'
+import { findAllCategory } from '@/api/category'
 export default {
   namespaced: true,
   // state 高命名空间写成函数形式
@@ -7,7 +7,7 @@ export default {
     return {
       // list是写死的数据 和 后台约定防止 白屏
       // 利用map 方法进行处理 转字符串为对象 后续需要key value形式
-      list: topCategory.map(item => ({ name: item }))
+      list: topCategory.map((item) => ({ name: item }))
     }
   },
   mutations: {
@@ -32,7 +32,6 @@ export default {
         item.open = false
       })
       context.commit('setList', result)
-      console.log(result)
     }
   }
 }

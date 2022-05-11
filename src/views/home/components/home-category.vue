@@ -20,6 +20,11 @@
             {{sub.name}}
           </RouterLink>
         </template>
+
+        <template v-else>
+          <xtxSkeleton width="60px" height="18px" style="margin-right: 5px" bg="rgba(255,255,255, 0.2)" animated />
+          <xtxSkeleton width="60px" height="18px" bg="rgba(255,255,255, 0.2)" animated />
+        </template>
       </li>
     </ul>
 
@@ -55,13 +60,14 @@
           </li>
       </ul>
     </div>
+
   </div>
 </template>
 
 <script>
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
-import { getBrands } from '@/api/home.js'
+import { findBrands } from '@/api/home.js'
 export default {
   name: 'HomeCategory',
   setup() {
@@ -81,9 +87,9 @@ export default {
 
     // 2. 从vuex中获取数据
     const menuList = computed(() => {
-      const list = store.state.category.list.map(item => {
+      const list = store.state.category.list.map((item, index) => {
         return {
-          id: item.id,
+          id: item.id || index,
           name: item.name,
           // 先行一步 防止 没有children数据
           children: item.children && item.children.slice(0, 2),
@@ -93,7 +99,6 @@ export default {
       list.push(brand)
       return list
     })
-    console.log(menuList)
 
     // 3.左侧弹层的显示
     const categoryId = ref(null)
@@ -104,17 +109,17 @@ export default {
     })
 
     // 4. 获取品牌数据
-    getBrands().then(data => {
+    findBrands().then(data => {
       brand.brands = data.result
     })
     // onMounted是ok的
     // onMounted(async () => {
-    //   const data = await getBrands()
+    //   const data = await findBrands()
     //   brand.brands = data.result
     // })
 
     // 用async和await是会出错的 导致整个组件都没了
-    // const data = await getBrands()
+    // const data = await findBrands()
     // brand.brands = data
 
     return { menuList, categoryId, currCategory }
@@ -134,7 +139,6 @@ export default {
       padding-left: 40px;
       height: 50px;
       line-height: 50px;
-      &:hover,
       &.active
       {
         background: @xtxColor;

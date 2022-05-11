@@ -21,8 +21,3 @@
 //   return list.shift() + fn(list)
 // }
 // console.log(fn([99, 100]))
-
-
-
-
-
