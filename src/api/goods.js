@@ -18,3 +18,32 @@ export const findRelGoods = (id, limit = 16) => {
 export const findHotGoods = ({ id, type, limit = 3 }) => {
   return request('/goods/hot', 'get', { id, type, limit })
 }
+
+/**
+ * @name: 获取商品的评价头部统计信息
+ * @return {*}  {String} id - 商品ID
+ */
+
+export const findCommentInfoByGoods = (id) => {
+  // get字段没有传递
+  return request(`/goods/${id}/evaluate`, 'get')
+}
+
+/**
+ * @name: 获取商品的评价的评论具体信息
+ * @param {*} - 商品ID
+ * @param {*} - 商品的参数
+ */
+// export const findCommentList = (id, params) => {
+//   return request(`/goods/${id}/evaluate/page`, 'get', params)
+// }
+
+export const findCommentList = (id, params) => {
+  return request(`https://mock.boxuegu.com/mock/1175/goods/${id}/evaluate/page`, 'get', params)
+}
+
+// 如果后端没有开发好接口 我们mock地址 mock的基地址和后端的不一样 直接这里写https开头的地址 即可 axios会默认识别出来
+// https://mock.boxuegu.com/mock/1175/goods/${id}/evaluate
+// export const findCommentInfoByGoods = (id) => {
+//   return request(`https://mock.boxuegu.com/mock/1175/goods/${id}/evaluate`)
+// }

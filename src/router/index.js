@@ -7,6 +7,7 @@ const home = () => import('@/views/home/index.vue')
 const topCategory = () => import('@/views/category/index.vue')
 const subCategory = () => import('@/views/category/sub.vue')
 const Goods = () => import('@/views/goods/index')
+const Login = () => import('@/views/login/index')
 const routes = [
   {
     path: '/',
@@ -28,6 +29,11 @@ const routes = [
         component: Goods
       }
     ]
+  },
+  // 登录页
+  {
+    path: '/login',
+    component: Login
   }
 ]
 

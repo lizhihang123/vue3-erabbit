@@ -28,10 +28,10 @@ export default {
   top: 0;
   z-index: 98;
   .xtx-carousel {
-    :deep .carousel-btn.prev {
+    :deep(.carousel-btn.prev) {
     left: 270px;
     }
-    :deep .carousel-indicator {
+    :deep(.carousel-indicator) {
     padding-left: 250px;
     }
   }

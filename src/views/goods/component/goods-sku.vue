@@ -3,9 +3,21 @@
     <dl v-for="spec in goods.specs" :key="spec.id">
       <dt>{{spec.name}}</dt>
       <!-- spec是口味 value就是草莓味 苹果味 -->
-      <dd v-for="(value, index) in spec.values" :key="index" @click="selectSpecs(spec, value)">
-        <img :class="{selected: value.selected, disabled: value.disabled}" :src="value.picture" :title="value.name" v-if="value.picture">
-        <span :class="{selected: value.selected, disabled: value.disabled}" v-else>{{value.name}}</span>
+      <dd>
+        <template v-for="(value, index) in spec.values" :key="index" >
+          <img
+          :class="{selected: value.selected, disabled: value.disabled}"
+          :src="value.picture"
+          :title="value.name"
+          v-if="value.picture"
+          @click="selectSpecs(spec, value)">
+          <span
+          :class="{selected: value.selected, disabled: value.disabled}"
+          v-else
+          @click="selectSpecs(spec, value)">
+            {{value.name}}
+          </span>
+        </template>
       </dd>
     </dl>
   </div>
@@ -158,7 +170,6 @@ export default {
       // 当点击的时候 更新禁用状态
       updateDisabledStatus(props.goods.specs, pathMap)
       // 触发change事件 传出完整的sku
-
       // 如何判断是否选中了所有的sku? 通过选中的数组的数据过滤，判断长度是否和props.goods.specs.length相同
       // 获取选中的数组 过滤undefiend
       const selectedArr = getSelectedArr(props.goods.specs).filter(value => value)
@@ -217,9 +228,8 @@ export default {
       color: #999;
     }
     dd {
-      // flex: 1;
+      flex: 1;
       color: #666;
-      margin-top: 7px;
       > img {
         width: 50px;
         height: 50px;
@@ -229,7 +239,7 @@ export default {
         display: inline-block;
         height: 30px;
         line-height: 28px;
-        padding: 0 20px;
+        padding: 0 10px;
         .sku-state-mixin ();
       }
     }

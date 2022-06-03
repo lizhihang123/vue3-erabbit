@@ -35,7 +35,9 @@
             <goods-tab />
           </div>
           <!-- 注意事项 -->
-          <div class="goods-warn"></div>
+          <div class="goods-warn">
+            <goods-warn />
+          </div>
         </div>
         <!-- 24热榜+专题推荐 -->
         <div class="goods-aside">
@@ -55,12 +57,13 @@ import GoodsSku from './component/goods-sku.vue'
 import GoodsSales from './component/goods-sales.vue'
 import GoodsTab from './component/goods-tab.vue'
 import GoodsHot from './component/goods-hot.vue'
+import GoodsWarn from './component/goods-warn.vue'
 import { nextTick, ref, watch, provide } from 'vue'
 import { useRoute } from 'vue-router'
 import { findGoods } from '@/api/product'
 export default {
   name: 'XtxGoodsPage',
-  components: { GoodsRelevant, GoodsImage, GoodsName, GoodsSales, GoodsSku, GoodsTab, GoodsHot },
+  components: { GoodsRelevant, GoodsImage, GoodsName, GoodsSales, GoodsSku, GoodsTab, GoodsHot, GoodsWarn },
   setup() {
     const goods = useGoods()
     // goods 接受 useGoods方法返回的所有商品
@@ -73,7 +76,7 @@ export default {
       }
     }
     // 商品的数量
-    const num = ref(null)
+    const num = ref(1)
     // 提供商品详情数据
     provide('goods', goods)
     return {
