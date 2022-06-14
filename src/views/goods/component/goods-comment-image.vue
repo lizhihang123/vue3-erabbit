@@ -3,19 +3,22 @@
     <div class="list">
       <a
         href="javascript:;"
-        :class="{active: currImage === url}"
-        @click="currImage = url"
-        v-for="url in pictures"
-        :key="url"
+        :class="{active: currentImage === url}"
+        @click="currentImage = url"
+        v-for="(url, index) in pictures"
+        :key="index"
       >
         <img :src="url" alt="">
       </a>
+
+      <!-- 预览的图片 -->
+      <div class="preview" v-if="currentImage">
+        <img :src="currentImage" alt="">
+        <!-- 关闭按钮 点击 关闭预览图片 -->
+        <i @click="currentImage = null" class="iconfont icon-close-new"></i>
+      </div>
     </div>
     <!-- 图片预览 和 关闭图片 -->
-    <div class="preview" v-if="currImage">
-      <img :src="currImage" alt="">
-      <i @click="currImage = null" class="iconfont icon-close-new"></i>
-    </div>
   </div>
 </template>
 <script>
@@ -28,9 +31,13 @@ export default {
       default: () => []
     }
   },
-  setup () {
-    const currImage = ref(null)
-    return { currImage }
+  setup (props) {
+    // 这里给null 而不是'' 因为如果没有选中 就没有预览的图片
+    // 使得能够默认预览第一张图片
+    const currentImage = ref(props.pictures[0])
+    return {
+      currentImage
+    }
   }
 }
 </script>

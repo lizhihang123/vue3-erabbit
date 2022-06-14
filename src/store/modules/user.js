@@ -18,7 +18,7 @@ export default {
        * @name: 修改用户信息的函数
        * @test: test font
        * @msg:
-       * @param {*} state
+       * @param {*} stuserMobileLoginMsgate
        * @param {*} payload
        * @return {*}
        */

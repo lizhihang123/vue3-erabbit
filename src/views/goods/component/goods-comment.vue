@@ -1,6 +1,7 @@
 <template>
-  <div class="goods-comment" v-if="commentInfo">
-    <div class="head">
+  <div class="goods-comment">
+    <!-- 筛选 -->
+    <div class="head" v-if="commentInfo">
       <div class="data">
         <p><span>{{commentInfo.salesCount}}</span><span>人购买</span></p>
         <p><span>{{commentInfo.praisePercent}}</span><span>好评率</span></p>
@@ -18,7 +19,8 @@
         </div>
       </div>
     </div>
-    <div class="sort">
+    <!-- 排序 -->
+    <div class="sort" v-if="commentInfo">
       <span>排序：</span>
       <a
       href="javascript:;"
@@ -58,6 +60,7 @@
           <div class="text">{{item.content}}</div>
 
           <!-- 评论的图片 -->
+          <!-- 该组件会被遍历 每个评论下面都有可能有 图片 -->
           <goods-comment-image  :pictures="item.pictures"/>
           <!-- 评论的时间 -->
           <div class="time">
@@ -68,9 +71,14 @@
         </div>
       </div>
     </div>
-
     <!-- 分页组件 -->
-    <xtx-pagination @current-change="changePage" :total="total" :current-page="reqParams.page" v-if="total > 0" />
+    <xtx-pagination
+    v-if="total"
+    :total="+total"
+    :page-size="reqParams.pageSize"
+    :current-page="reqParams.page"
+    @current-change="changePager"
+     />
   </div>
 </template>
 <script>
@@ -86,6 +94,7 @@ export default {
     const commentInfo = ref(null)
     // 父组件传递来的商品数据
     const goods = inject('goods')
+    const total = ref('100')
     // 用于获取评论的信息
     findCommentInfoByGoods(goods.value.id).then(data => {
       // 为什么要unshift两个数据，因为每个商品 前面都是 全部评价和有图这两个标签[筛选用]
@@ -139,7 +148,7 @@ export default {
       tag: null,
       sortField: null
     })
-    // 点击改变 评论排序筛选条件
+    // 点击改变 评论排序条件
     const changeSort = (type) => {
       reqParams.sortField = type
       // 为什么要特别改变page 为的是能够重新获取新的评论【切记 这里不能够放到watch里面 为什么？】
@@ -150,7 +159,6 @@ export default {
 
     // 商品的评价信息 【默认 最新 最热】
     const commentList = ref([])
-    const total = ref('')
     watch(reqParams, () => {
       findCommentList(goods.value.id, reqParams).then(data => {
         commentList.value = data.result.items
@@ -181,7 +189,8 @@ export default {
       commentList,
       formatSpecs,
       formatNickname,
-      changePager
+      changePager,
+      total
     }
   }
 }

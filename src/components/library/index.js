@@ -10,6 +10,7 @@
 // import xtxBread from './xtx-bread.vue'
 // import xtxBreadItem from './xtx-bread-item.vue'
 import defaultImg from '@/assets/images/200.png'
+import Message from './Message'
 
 // 自定义指令
 const defineDirective = (app) => {
@@ -56,5 +57,7 @@ export default {
       app.component(component.name, component)
     })
     defineDirective(app)
+    // 如果想要通过this.$message()使用的话
+    app.config.globalProperties.$message = Message
   }
 }

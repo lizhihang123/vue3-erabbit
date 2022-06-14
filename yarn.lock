@@ -21,7 +21,7 @@
   "resolved" "https://registry.npmmirror.com/@babel/compat-data/-/compat-data-7.17.7.tgz"
   "version" "7.17.7"
 
-"@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.11.0", "@babel/core@^7.12.0", "@babel/core@^7.13.0", "@babel/core@^7.4.0-0":
+"@babel/core@*", "@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.11.0", "@babel/core@^7.12.0", "@babel/core@^7.13.0", "@babel/core@^7.4.0-0":
   "integrity" "sha512-OdQDV/7cRBtJHLSOBqqbYNkOcydOgnX59TZx4puf41fzcVtN3e/4yqY8lMQsK+5X2lJtAdmA+6OHqsj1hBJ4IQ=="
   "resolved" "https://registry.npmmirror.com/@babel/core/-/core-7.17.8.tgz"
   "version" "7.17.8"
@@ -3018,7 +3018,7 @@
     "browserslist" "^4.19.1"
     "semver" "7.0.0"
 
-"core-js@^3.6.5":
+"core-js@^3", "core-js@^3.6.5":
   "integrity" "sha512-FRq5b/VMrWlrmCzwRrpDYNxyHP9BcAZC+xHJaqTgIE5091ZV1NTmyh0sGOg5XqpnHvR0svdy0sv1gWA1zmhxig=="
   "resolved" "https://registry.npmmirror.com/core-js/-/core-js-3.21.1.tgz"
   "version" "3.21.1"
@@ -9202,6 +9202,11 @@
   "integrity" "sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg=="
   "resolved" "https://registry.npmmirror.com/vary/-/vary-1.1.2.tgz"
   "version" "1.1.2"
+
+"vee-validate@^4.0.3":
+  "integrity" "sha512-Ovk5+rNCnwZDQuRcCcq8claqJNNerBauKzCBD3bDoGBWqoLwAfo7rakr4p/jJs5WB4qpCyxjuycZMZJhuUNA/g=="
+  "resolved" "https://registry.npmjs.org/vee-validate/-/vee-validate-4.0.3.tgz"
+  "version" "4.0.3"
 
 "vendors@^1.0.0":
   "integrity" "sha512-/juG65kTL4Cy2su4P8HjtkTxk6VmJDiOPBufWniqQ6wknac6jNiXS9vU+hO3wgusiyqWlzTbVHi0dyJqRONg3w=="
