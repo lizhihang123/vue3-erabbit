@@ -8,7 +8,7 @@ const topCategory = () => import('@/views/category/index.vue')
 const subCategory = () => import('@/views/category/sub.vue')
 const Goods = () => import('@/views/goods/index')
 const Login = () => import('@/views/login/index')
-const LoginCallback = () => import('@/views/login/login-callback')
+const LoginCallback = () => import('@/views/login/callback')
 const routes = [
   {
     path: '/',

@@ -251,7 +251,9 @@ export default {
           resume() // 重新开始计时
         }
       } else {
+        // 失败，使用vee的错误函数显示错误信息 setFieldError(字段,错误信息)
         formCom.value.setFieldError('mobile', valid)
+        debugger
       }
     }
     // 4. 组件初始化 挂载页面

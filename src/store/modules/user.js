@@ -10,7 +10,8 @@ export default {
         mobile: '',
         token: ''
       },
-      name: 'ls'
+      name: 'ls',
+      redirectUrl: '/'
     }
   },
   mutations: {
@@ -24,6 +25,9 @@ export default {
        */
     setUser(state, payload) {
       state.profile = payload
+    },
+    setRedirectUrl(state, payload) {
+      state.redirectUrl = payload
     }
   }
 }

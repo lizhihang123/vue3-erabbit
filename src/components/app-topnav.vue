@@ -7,7 +7,7 @@
             <li><a href="javascript:;">免费注册</a></li>
         </template>
         <template v-else>
-            <li><a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a> </li>
+            <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{store.state.user.profile.account}}</a> </li>
             <li><a href="javascript:;" @click="logout">退出登录</a>
             </li>
         </template>
@@ -38,7 +38,7 @@ export default {
       // 跳转到登录页面
       router.push('/login')
     }
-    return { profile, logout }
+    return { profile, logout, store }
   }
 
 }
