@@ -27,5 +27,5 @@ export default ({ type, text }) => {
   // 目的-》3s后能够把null渲染到div里面去，这里弹框就会看不出显示
   timer = setTimeout(() => {
     render(null, div)
-  }, 3000)
+  }, 1000)
 }

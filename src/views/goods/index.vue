@@ -22,7 +22,7 @@
           <!-- 商品数量 -->
           <xtx-number :max="goods.inventory" label="数量" v-model="num" />
           <!-- 按钮组件 - 加入购物车 -->
-          <xtx-button type="primary" style="margin-top: 20px">加入购物车</xtx-button>
+          <xtx-button @click="insertCart" type="primary" style="margin-top: 20px">加入购物车</xtx-button>
         </div>
       </div>
       <!-- 3. 商品推荐 -->
@@ -60,29 +60,103 @@ import GoodsHot from './component/goods-hot.vue'
 import GoodsWarn from './component/goods-warn.vue'
 import { nextTick, ref, watch, provide } from 'vue'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import { findGoods } from '@/api/product'
+import Message from '@/components/library/Message'
 export default {
   name: 'XtxGoodsPage',
   components: { GoodsRelevant, GoodsImage, GoodsName, GoodsSales, GoodsSku, GoodsTab, GoodsHot, GoodsWarn },
   setup() {
     const goods = useGoods()
     // goods 接受 useGoods方法返回的所有商品
-
     const changSku = (sku) => {
-      if (sku) {
+      if (sku.skuId) {
         goods.value.price = sku.price
         goods.value.inventory = sku.inventory
         goods.value.oldPrice = sku.oldPrice
+        // 如果点击sku 就会修改当前选中的currSku的值
+        currSku.value = sku
+      } else {
+        currSku.value = null
       }
     }
     // 商品的数量
     const num = ref(1)
     // 提供商品详情数据
     provide('goods', goods)
+
+    // store
+    const store = useStore()
+    // 当前选中的sku的值
+    const currSku = ref(null)
+    // 增加商品至购物车
+    const insertCart = () => {
+      if (!currSku.value) {
+        Message({
+          text: '请选择商品规格'
+        })
+        return
+      }
+      // id - 商品的id
+      // skuId - skuId
+      // name - 商品名称
+      // attrsText - 属性文字
+      // picture - 商品图片
+      // price - 加入时的价格
+      // nowPrice - 当前的价格
+      // selected - 是否选中
+      // stock - 库存
+      // count - 数量
+      // discount - 折扣信息
+      // isCollect - 是否收藏
+      // isEffective - 是否为有效商品
+
+      // 解构赋值
+
+      // var o = { p: 42, q: true }
+      // var { p: foo, q: bar } = o // foo是新的变量名 p是旧的变量名
+      const { id, name, price, mainPictures: picture } = goods.value
+      // 为了以防 里面没有skuId 先手一波进行判断 赋值为null 这句代码好像没起作用
+      // if (!currSku.value.skuId) {
+      //   currSku.value.skuId = null
+      // }
+
+      // 有时候skuId会被识别为undefined 但是其实每个商品都会有skuId的 这里就有点奇怪了
+      const { skuId, specsdText: attrsText, inventory: stock } = currSku.value
+      const count = num.value
+      console.log(currSku.value)
+      console.log(attrsText)
+      store.dispatch('cart/insertCart', {
+        id: id,
+        name: name,
+        picture: picture[0],
+        skuId: skuId,
+        price: price,
+        nowPrice: price,
+        attrsText: attrsText,
+        stock: stock,
+        count: count,
+        isEffective: true,
+        selected: true
+      }).then(() => {
+        Message({
+          type: 'success',
+          text: '添加购物车成功'
+        })
+      }).catch(error => {
+        console.log(error)
+        Message({
+          type: 'error',
+          text: error
+        })
+      })
+    }
     return {
       goods,
       changSku,
-      num
+      num,
+      insertCart,
+      currSku
     }
   }
 }

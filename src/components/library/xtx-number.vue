@@ -11,6 +11,7 @@
 </template>
 <script>
 import { useVModel } from '@vueuse/core'
+// import { ref } from 'vue'
 export default {
   name: 'XtxNumber',
   props: {
@@ -34,8 +35,11 @@ export default {
     // 使用vueuse的父传子 子改父
     // 相当于num.value = props.modelValue
     // 以及emit('update:modelValue', num)
-    const num = useVModel(props, 'modelValue', emit)
+    // const num = useVModel(props, 'modelValue', emit)
     // 点击按钮 修改值
+
+    // let num = props.modelValue
+    const num = useVModel(props, 'modelValue', emit)
     const changeNum = (value) => {
       // 中转值
       const newValue = num.value + value
@@ -43,7 +47,8 @@ export default {
       if (newValue > props.max || newValue < props.min) return
       num.value = newValue
       // 一般还会有额外的change事件 不同于修改值的update事件
-      emit('change', num)
+      emit('change', newValue)
+      // emit('update:modelValue', newValue)
     }
 
     return {

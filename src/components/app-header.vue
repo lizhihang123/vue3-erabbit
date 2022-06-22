@@ -10,11 +10,13 @@
         <i class="iconfont icon-search"></i>
         <input type="text" placeholder="搜一搜">
       </div>
-      <div class="cart">
+      <!-- 购物车的小图标 -->
+      <!-- <div class="cart">
         <a class="curr" href="#">
           <i class="iconfont icon-cart"></i><em>2</em>
         </a>
-      </div>
+      </div> -->
+      <AppHeaderCart />
     </div>
   </header>
 </template>
@@ -22,13 +24,15 @@
 <script>
 import AppHeaderNav from '@/components/app-header-nav.vue'
 import AppHeaderSticky from '@/components/app-header-sticky.vue'
+import AppHeaderCart from '@/components/app-header-cart.vue'
 // import { onMounted, ref } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
 export default {
   name: 'AppHeader',
   components: {
     AppHeaderNav,
-    AppHeaderSticky
+    AppHeaderSticky,
+    AppHeaderCart
   },
   setup() {
     // const y = ref(0)

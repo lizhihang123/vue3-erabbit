@@ -53,7 +53,7 @@ export default {
     })
     setTimeout(() => {
       visible.value = false
-    }, 1000)
+    }, 1500)
     return {
       style,
       visible

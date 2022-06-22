@@ -37,7 +37,6 @@ export default {
     const goodsList = ref([])
     // 获取热榜商品 根据id
     findHotGoods({ id: props.goodsId, type: props.type }).then(res => {
-      console.log(res.result)
       goodsList.value = res.result
     })
     return {
