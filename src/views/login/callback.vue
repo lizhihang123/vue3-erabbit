@@ -72,12 +72,21 @@ export default {
           // 保存用户信息
           const { account, mobile, avatar, nickname, token, id } = data.result
           store.commit('user/setUser', { account, mobile, avatar, nickname, token, id })
-          // 登录成功：data.result 用户信息
-          router.push(store.state.user.redirectUrl)
-          // 成功的提示
-          Message({
-            type: 'success',
-            text: 'QQ登录成功'
+
+          // // 登录成功：data.result 用户信息
+          // router.push(store.state.user.redirectUrl)
+          // // 成功的提示
+          // Message({
+          //   type: 'success',
+          //   text: 'QQ登录成功'
+          // })
+
+          // 合并修改 合并购物车 提示+跳转
+          store.dispatch('cart/mergeLocalCart').then(() => {
+            // 提示用户登录成功
+            Message({ text: '登录成功', type: 'success' })
+            // 强调一遍route.query.redirectUrl 或者是跳转到'/'
+            router.push(store.state.user.redirectUrl)
           })
         }).catch(e => {
           isBind.value = false

@@ -1,5 +1,6 @@
 // 1. 引入内容
 import { createRouter, createWebHashHistory } from 'vue-router'
+// import { useStore } from 'vuex'
 
 // 2. 路由具体配置
 const layout = () => import('@/views/layout.vue')
@@ -57,6 +58,21 @@ const router = createRouter({
     return { left: 0, top: 0 }
   }
 })
+
+// const store = useStore()
+// router.beforeEach((to, from, next) => {
+//   // 用户信息
+//   const { token } = store.state.user.profile
+//   // 跳转去member开头的地址却没有登录
+//   if (to.path.startsWith('/member') && !token) {
+//     next({
+//       path: '/login',
+//       query: {
+//         redirectUrl: to.fullPath
+//       }
+//     })
+//   }
+// })
 
 // 4. 导出 在main.js里面进行具体挂载
 export default router

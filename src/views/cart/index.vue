@@ -46,7 +46,9 @@
                     <!-- 选择规格组件 -->
                     <cartSku
                     @change="$event => updateCartSku(validGood.skuId, $event)" :attrs-text="validGood.attrsText"
-                    :skuId="validGood.skuId"/>
+                    :skuId="validGood.skuId"
+                    v-model="name"
+                    />
                   </div>
                 </div>
               </td>
@@ -110,7 +112,7 @@
         <div class="total">
           共 {{$store.getters['cart/validTotal']}} 件商品，已选择 {{$store.getters['cart/selectedAmount']}} 件，商品合计:
           <span class="red">¥ {{$store.getters['cart/selectedPrice']}} </span>
-          <XtxButton type="primary">下单结算</XtxButton>
+          <XtxButton type="primary" @click="goCheckout">下单结算</XtxButton>
         </div>
       </div>
       <!-- 猜你喜欢 -->
@@ -125,6 +127,7 @@ import Confirm from '@/components/library/Confirm'
 import cartNone from './components/cart-none.vue'
 import cartSku from './components/cart-sku.vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 export default {
   name: 'XtxCartPage',
   components: { GoodRelevant, cartNone, cartSku },
@@ -183,13 +186,37 @@ export default {
         newSku
       })
     }
+    // 跳转结算页面
+    const router = useRouter()
+    const goCheckout = () => {
+      // 1. 判断是否选择有效商品
+      if (store.getters['cart/selectedAmount'] === 0) {
+        return Message({
+          text: '至少选中一件商品才能结算'
+        })
+      }
+      // 2. 判断是否已经登录 未登录 弹窗提示
+      if (!store.state.user.profile.token) {
+        Confirm({
+          text: '登录后才能结算, 是否进入登录页面'
+        }).then(() => {
+          router.push('/member/checkout')
+        }).catch(e => {
+        })
+      } else {
+        router.push('/member/checkout')
+      }
+
+      // 3. 进行跳转
+    }
     return {
       checkedOne,
       checkedAll,
       deleteCart,
       batchDeleteCart,
       changeCount,
-      updateCartSku
+      updateCartSku,
+      goCheckout
     }
   }
 }

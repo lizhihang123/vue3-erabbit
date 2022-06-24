@@ -134,7 +134,7 @@ export default {
           } catch (error) {
             Message({
               type: 'error',
-              text: '发送失败，请检查格式或已被注册'
+              text: '发送失败，请检查格式或该手机号已被注册'
             })
             time.value = 0 // 这时不能够计时
             // pause()
@@ -164,11 +164,20 @@ export default {
           const { account, mobile, avatar, nickname, token, id } = data.result
           // 2. 存数据
           store.commit('user/setUser', { mobile, avatar, nickname, token, id, account })
-          // 3. 提示成功
-          Message({ text: '登录成功', type: 'success' })
-          // 4. 路由跳转
-          // 跳转到记录的重定向地址 或者是首页
-          router.push(route.query.redirectUrl || '/')
+
+          // // 3. 提示成功
+          // Message({ text: '登录成功', type: 'success' })
+          // // 4. 路由跳转
+          // // 跳转到记录的重定向地址 或者是首页
+          // router.push(route.query.redirectUrl || '/')
+
+          // 购物车合并修改 合并购物车 提示+跳转
+          store.dispatch('cart/mergeLocalCart').then(() => {
+            // 提示用户登录成功
+            Message({ text: '登录成功', type: 'success' })
+            // 强调一遍route.query.redirectUrl 或者是跳转到'/'
+            router.push(route.query.redirectUrl || '/')
+          })
         }).catch((error) => {
           Message({
             text: error.message,

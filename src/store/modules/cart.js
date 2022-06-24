@@ -1,4 +1,4 @@
-import { getNewCartGoods } from '@/api/cart.js'
+import { getNewCartGoods, mergeLocalCart, findCartList, insertCart, deleteCart, updateCart, checkAllCart } from '@/api/cart.js'
 import Message from '@/components/library/Message'
 export default {
   namespaced: true,
@@ -49,13 +49,16 @@ export default {
     }
   },
   mutations: {
+    // 合并本地购物车
+    setCartList (state, list) {
+      state.list = list
+    },
     // 删除购物车
     deleteCart (state, skuId) {
       // 根据 skuId 找到在list中的位置
       const index = state.list.findIndex(item => item.skuId === skuId)
       // 直接删除
       state.list.splice(index, 1)
-      debugger
     },
     // 添加购物车
     insertCart (state, goods) {
@@ -70,7 +73,6 @@ export default {
       // 把新增的goods产品放到list的开头【此时这个产品的数量已经更新了】
       // 上面if倘若没走进去，就是直接goods push进去
       state.list.unshift(goods)
-      debugger
     },
 
     // 更新购物车
@@ -99,11 +101,19 @@ export default {
         // 如果user下面存在token -> 证明用户登录
         if (ctx.rootState.user.token) {
           // 用户已经登录
+          insertCart({
+            skuId: goods.skuId,
+            count: goods.count
+          }).then(() => {
+            return findCartList()
+          }).then((data) => {
+            ctx.commit('findCartList', data.result)
+            resolve()
+          })
         } else {
           // 用户未登录
           // actions -> mutations -> 修改goods
           ctx.commit('insertCart', goods)
-          console.log(goods)
           // 必须resolve -> 下回才能够通过.then获取到结果数据
           resolve()
         }
@@ -117,6 +127,11 @@ export default {
         if (ctx.rootState.user.profile.token) {
           // 表明用户已经登录
           // 如果用户已经登录 信息都是接口从后台获取的 无需做额外的更新处理?
+          findCartList().then(data => {
+            ctx.commit('setCartList', data.result)
+            console.log(data)
+            resolve()
+          })
         } else {
           // 用户未登录 是本地存储 需要更新
 
@@ -158,6 +173,13 @@ export default {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 已经登录
+          // skuId传数组
+          deleteCart([skuId]).then(() => {
+            return findCartList()
+          }).then(data => {
+            ctx.commit('setCartList', data.result)
+            resolve()
+          })
         } else {
           // 未登录 - 本地存储
           ctx.commit('deleteCart', skuId)
@@ -171,6 +193,13 @@ export default {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 已经登录
+          const idList = ctx.getters[isClear ? 'invalidList' : 'selectedList'].map(item => item.skuId)
+          deleteCart(idList).then(() => {
+            return findCartList()
+          }).then(data => {
+            ctx.commit('setCartList', data.result)
+            resolve()
+          })
         } else {
           // 获取选中商品列表 遍历 挨个进行删除
           if (isClear && ctx.getters.invalidList.length === 0) {
@@ -196,6 +225,12 @@ export default {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 登录
+          updateCart(goods).then(() => {
+            return findCartList()
+          }).then(data => {
+            ctx.commit('updateCart', data.result)
+            resolve()
+          })
         } else {
           // 未登录
           ctx.commit('updateCart', goods)
@@ -209,6 +244,13 @@ export default {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 登录
+          const idList = ctx.getters.validList.map(item => item.skuId)
+          checkAllCart({ selected, idList }).then(() => {
+            return findCartList()
+          }).then((data) => {
+            ctx.commit('setCartList', data.result)
+            resolve()
+          })
         } else {
           // 未登录
           // 遍历有效的商品列表 挨个去修改商品的选中状态
@@ -226,6 +268,22 @@ export default {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
           // 登录
+          // 1. 获取原先商品的数量
+          // 2. 删除原先的商品
+          // 3. 获取修改的skuId 和 原先商品数量 做一个加入购物车的操作
+          // 4. 更新列表
+          const oldGoods = ctx.state.list.find(item => item.skuId === oldSkuId)
+          deleteCart([oldSkuId]).then(() => {
+            return insertCart({
+              skuId: newSku.skuId,
+              count: oldGoods.count
+            })
+          }).then(() => {
+            findCartList()
+          }).then(data => {
+            ctx.commit('setCartList', data.result)
+            resolve()
+          })
         } else {
           // 未登录
           // 修改sku时，skuId需要修改 相等于把原来的信息 移出 创建一条新的商品信息
@@ -242,6 +300,17 @@ export default {
           resolve()
         }
       })
+    },
+
+    // 7. 合并本地购物车
+    async mergeLocalCart (ctx) {
+      const cartList = ctx.getters.validList.map(({ skuId, selected, count }) => {
+        return { skuId, selected, count }
+      })
+      // 合并购物车 - 服务端
+      await mergeLocalCart(cartList)
+      // 清空购物车
+      ctx.commit('setCartList', [])
     }
   }
 }

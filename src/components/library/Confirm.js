@@ -6,6 +6,7 @@ const div = document.createElement('div')
 // 1.1 设置自定义属性
 div.setAttribute('class', 'xtx-confirm-container')
 // 1.2 插入到页面上
+// document.querySelector('#app').appendChild(div)
 document.body.appendChild(div)
 
 export default ({ title, text }) => {

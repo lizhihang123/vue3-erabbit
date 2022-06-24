@@ -18,7 +18,7 @@ instance.interceptors.request.use(
     const { profile } = store.state.user
     // 如果有token 才进行头部的携带
     if (profile.token) {
-      config.headers.Authorizaton = `Bearer ${profile.token}`
+      config.headers.Authorization = `Bearer ${profile.token}`
     }
     return config
   },

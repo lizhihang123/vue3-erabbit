@@ -91,7 +91,7 @@
           <span>和</span>
           <a href="javascript:;">《服务条款》</a>
         </div>
-        <div v-if="errors.isAgree && agreeFlag" class="error"><i class="iconfont icon-warning" />
+        <div v-if="errors.isAgree" class="error"><i class="iconfont icon-warning" />
             {{errors.isAgree}}
         </div>
       </div>
@@ -212,15 +212,26 @@ export default {
           const { account, mobile, avatar, nickname, token, id } = data.result
           // 修改用户信息
           store.commit('user/setUser', { mobile, avatar, nickname, token, id, account })
-          // 提示用户登录成功
-          Message({ text: '登录成功', type: 'success' })
-          // 强调一遍route.query.redirectUrl 或者是跳转到'/'
-          router.push(route.query.redirectUrl || '/')
+
+          // // 提示用户登录成功
+          // Message({ text: '登录成功', type: 'success' })
+          // // 强调一遍route.query.redirectUrl 或者是跳转到'/'
+          // router.push(route.query.redirectUrl || '/')
+          // // 购物车合并修改 合并购物车 提示+跳转
+
+          store.dispatch('cart/mergeLocalCart').then(() => {
+            // 提示用户登录成功
+            Message({ text: '登录成功', type: 'success' })
+            // 强调一遍route.query.redirectUrl 或者是跳转到'/'
+            router.push(route.query.redirectUrl || '/')
+          })
         } catch (error) {
           if (error) {
             Message({ text: error.response.data.message, type: 'error' })
           }
         }
+      } else {
+        agreeFlag.value = true
       }
     }
     // 2. 点击发送验证码

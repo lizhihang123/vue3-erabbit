@@ -18,3 +18,54 @@ export const getNewCartGoods = (id) => {
 export const getSpecsAndSkus = (skuId) => {
   return request(`/goods/sku/${skuId}`, 'get')
 }
+
+/**
+ * @name: 合并本地购物车 - 登录后
+ * @param {*} cartList 本地购物车数组
+ * @return {*}
+ */
+export const mergeLocalCart = (cartList) => {
+  return request('/member/cart/merge', 'post', cartList)
+}
+
+/**
+ * @name: 获取购物车的数量 - 登录后
+ * @return {*}
+ */
+export const findCartList = () => {
+  return request('/member/cart', 'get')
+}
+
+/**
+ * @name: 加入购物车的数量 - 登录后
+ * @return {*}
+ */
+export const insertCart = (skuId, count) => {
+  return request('member/cart', 'post', { skuId, count })
+}
+
+/**
+ * @name: 删除购物车 - 登录后
+ * @return {*}
+ */
+export const deleteCart = (ids) => {
+  return request('member/cart', 'delete', { ids })
+}
+
+/**
+ * @name: 修改购物车商品的状态和数量 - 登录后
+ * @return {*}
+ */
+export const updateCart = (goods) => {
+  return request(`/member/cart/${goods.skuId}`, 'put', 'goods')
+}
+
+/**
+ * @name: 全选与反选的接口 - 登录后
+ * @param <Boolean> selected - 选中状态
+ * @param {Array - <string> } ids 有效商品的sku集合
+ * @return {*}
+ */
+export const checkAllCart = ({ selected, ids }) => {
+  return request('/member/cart/selected', 'put', { selected, ids })
+}

@@ -124,8 +124,6 @@ export default {
       // 有时候skuId会被识别为undefined 但是其实每个商品都会有skuId的 这里就有点奇怪了
       const { skuId, specsdText: attrsText, inventory: stock } = currSku.value
       const count = num.value
-      console.log(currSku.value)
-      console.log(attrsText)
       store.dispatch('cart/insertCart', {
         id: id,
         name: name,

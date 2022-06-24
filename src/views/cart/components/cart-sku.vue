@@ -44,7 +44,6 @@ export default {
       loading.value = true
       // 根据skuId数据 获取当前的spec和sku数据
       getSpecsAndSkus(props.skuId).then(res => {
-        console.log(goods)
         goods.value = res.result
         loading.value = false
       })
@@ -93,7 +92,8 @@ export default {
       submit,
       changeSku,
       target,
-      loading
+      loading,
+      name
     }
   }
 }

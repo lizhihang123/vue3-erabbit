@@ -33,8 +33,12 @@ export default {
     const profile = computed(() => {
       return store.state.user.profile
     })
+    // 退出登录
     const logout = () => {
+      // 清空本地的用户信息
       store.commit('user/setUser', {})
+      // 清空本地的购物车
+      store.commit('cart/setCartList', [])
       // 跳转到登录页面
       router.push('/login')
     }

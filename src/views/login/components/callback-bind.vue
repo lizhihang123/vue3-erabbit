@@ -125,12 +125,20 @@ export default {
           const { account, mobile, avatar, nickname, token, id } = data.result
           // 2. 存数据
           store.commit('user/setUser', { mobile, avatar, nickname, token, id, account })
-          debugger
-          // 3. 提示成功
-          Message({ text: '登录成功', type: 'success' })
-          // 4. 路由跳转
-          // 跳转到记录的重定向地址 或者是首页
-          router.push(route.query.redirectUrl || '/')
+
+          // // 3. 成功提示
+          // Message({ text: '登录成功', type: 'success' })
+          // // 4. 路由跳转
+          // // 跳转到记录的重定向地址 或者是首页
+          // router.push(route.query.redirectUrl || '/')
+
+          // // 合并修改 合并购物车 提示+跳转
+          store.dispatch('cart/mergeLocalCart').then(() => {
+            // 提示用户登录成功
+            Message({ text: '登录成功', type: 'success' })
+            // 强调一遍route.query.redirectUrl 或者是跳转到'/'
+            router.push(route.query.redirectUrl || '/')
+          })
         }).catch((error) => {
           Message({
             text: error.response.data.message,
