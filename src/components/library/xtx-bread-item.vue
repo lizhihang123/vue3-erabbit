@@ -11,7 +11,7 @@ export default {
   props: {
     to: {
       type: [String, Object],
-      default: '/'
+      default: ''
     },
     parentName: {
       type: String,

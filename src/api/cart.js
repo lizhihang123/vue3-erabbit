@@ -57,7 +57,7 @@ export const deleteCart = (ids) => {
  * @return {*}
  */
 export const updateCart = (goods) => {
-  return request(`/member/cart/${goods.skuId}`, 'put', 'goods')
+  return request(`/member/cart/${goods.skuId}`, 'put', goods)
 }
 
 /**
@@ -66,6 +66,6 @@ export const updateCart = (goods) => {
  * @param {Array - <string> } ids 有效商品的sku集合
  * @return {*}
  */
-export const checkAllCart = ({ selected, ids }) => {
+export const checkAllCart = (selected, ids) => {
   return request('/member/cart/selected', 'put', { selected, ids })
 }

@@ -15,6 +15,8 @@ export default {
       type: Object,
       default: () => {}
     }
+  },
+  setup(props) {
   }
 }
 </script>

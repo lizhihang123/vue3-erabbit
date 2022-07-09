@@ -1,5 +1,7 @@
-import { useIntersectionObserver } from '@vueuse/core'
-import { ref } from 'vue'
+import { useIntersectionObserver, useIntervalFn } from '@vueuse/core'
+import { onUnmounted, ref } from 'vue'
+import dayjs from 'dayjs'
+// 懒加载
 export const useLazyData = (apiFn) => {
   const target = ref(null)
   const result = ref([])
@@ -23,4 +25,41 @@ export const useLazyData = (apiFn) => {
     }
   )
   return { result, target }
+}
+
+// 支付倒计时
+export const usePayTime = () => {
+  // 倒计时逻辑
+  const time = ref(0)
+  const timeText = ref('')
+  // 1. 解构出pause 和 resume 两个函数
+  // 2. 如果time小于0 就暂停，
+  // 3. 参数1是要执行的函数 参数2是每隔1秒执行一次 参数3不是立即执行
+  const { pause, resume } = useIntervalFn(() => {
+    time.value--
+    // dayjs.unix
+    // dayjs.unix(time.value).format('mm分ss秒')
+    timeText.value = dayjs.unix(time.value).format('mm分ss秒')
+    if (time.value <= 0) {
+      pause()
+    }
+  }, 1000, false)
+  // 组件销毁时 暂停
+  onUnmounted(() => {
+    pause()
+  })
+  // 开启定时器countdown倒计时时间
+  const start = (countdown) => {
+    time.value = countdown
+    // 这句代码加 与 不加 差别很大
+    // 能够解决 是否显示白屏的问题
+    timeText.value = dayjs.unix(time.value).format('mm分ss秒')
+    // 唯一的错误就是  timeText.value = timeText.value.dayjs.unix(time.value).format('mm分ss秒')
+    resume()
+  }
+
+  return {
+    start,
+    timeText
+  }
 }

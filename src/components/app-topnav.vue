@@ -7,7 +7,7 @@
             <li><a href="javascript:;">免费注册</a></li>
         </template>
         <template v-else>
-            <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{store.state.user.profile.account}}</a> </li>
+            <li><a href="javascript:;" @click="$router.push('/member')"><i class="iconfont icon-user"></i>{{store.state.user.profile.account}}</a> </li>
             <li><a href="javascript:;" @click="logout">退出登录</a>
             </li>
         </template>

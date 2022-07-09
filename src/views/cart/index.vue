@@ -47,7 +47,6 @@
                     <cartSku
                     @change="$event => updateCartSku(validGood.skuId, $event)" :attrs-text="validGood.attrsText"
                     :skuId="validGood.skuId"
-                    v-model="name"
                     />
                   </div>
                 </div>
@@ -105,7 +104,7 @@
       <div class="action">
         <div class="batch">
           <XtxCheckbox :modelValue="$store.getters['cart/isCheckAll']" @change="checkedAll">全选</XtxCheckbox>
-          <a href="javascript:;" @click="batchDeleteCart">删除商品</a>
+          <a href="javascript:;" @click="batchDeleteCart(false)">删除商品</a>
           <a href="javascript:;">移入收藏夹</a>
           <a href="javascript:;" @click="batchDeleteCart(true)">清空失效商品</a>
         </div>
@@ -204,7 +203,9 @@ export default {
         }).catch(e => {
         })
       } else {
-        router.push('/member/checkout')
+        // 如果登录 直接就跳转
+        // +return就表示直接跳转?
+        return router.push('/member/checkout')
       }
 
       // 3. 进行跳转

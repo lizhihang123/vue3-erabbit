@@ -99,15 +99,12 @@ export default {
         // ctx.rootState 是看文档得知 commit/ctx下面有rootState 属性 该属性能够获取 其它兄弟模块的属性state值
         // 如果不用ctx.rootState.user.token来获取 而是使用 store.state.user -> 这个写法错误 当前本来就是store对象 store.state能获取到啥呢?
         // 如果user下面存在token -> 证明用户登录
-        if (ctx.rootState.user.token) {
+        if (ctx.rootState.user.profile.token) {
           // 用户已经登录
-          insertCart({
-            skuId: goods.skuId,
-            count: goods.count
-          }).then(() => {
+          insertCart(goods.skuId, goods.count).then(() => {
             return findCartList()
           }).then((data) => {
-            ctx.commit('findCartList', data.result)
+            ctx.commit('setCartList', data.result)
             resolve()
           })
         } else {
@@ -224,11 +221,11 @@ export default {
     updateCart (ctx, goods) {
       return new Promise((resolve, reject) => {
         if (ctx.rootState.user.profile.token) {
-          // 登录
+          // 登录 goods 必定传skuId 其次 可能是count 可能是selected
           updateCart(goods).then(() => {
             return findCartList()
           }).then(data => {
-            ctx.commit('updateCart', data.result)
+            ctx.commit('setCartList', data.result)
             resolve()
           })
         } else {
@@ -245,7 +242,7 @@ export default {
         if (ctx.rootState.user.profile.token) {
           // 登录
           const idList = ctx.getters.validList.map(item => item.skuId)
-          checkAllCart({ selected, idList }).then(() => {
+          checkAllCart(selected, idList).then(() => {
             return findCartList()
           }).then((data) => {
             ctx.commit('setCartList', data.result)
@@ -274,12 +271,9 @@ export default {
           // 4. 更新列表
           const oldGoods = ctx.state.list.find(item => item.skuId === oldSkuId)
           deleteCart([oldSkuId]).then(() => {
-            return insertCart({
-              skuId: newSku.skuId,
-              count: oldGoods.count
-            })
+            return insertCart(newSku.skuId, oldGoods.count)
           }).then(() => {
-            findCartList()
+            return findCartList()
           }).then(data => {
             ctx.commit('setCartList', data.result)
             resolve()

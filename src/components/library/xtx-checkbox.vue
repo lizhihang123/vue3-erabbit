@@ -12,7 +12,7 @@ export default {
   name: 'XtxCheckbox',
   props: {
     modelValue: {
-      type: Boolean,
+      type: [Boolean, Number],
       default: false
     }
   },
