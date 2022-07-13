@@ -2,8 +2,6 @@
   <header class='app-header'>
     <div class="container">
       <h1 class="logo"><RouterLink to="/">小兔鲜</RouterLink></h1>
-      <!-- 吸顶头部 -->
-      <AppHeaderSticky />
       <!-- 头部导航 -->
       <AppHeaderNav :class="{hide: y >= 78}" />
       <div class="search">
@@ -16,6 +14,7 @@
           <i class="iconfont icon-cart"></i><em>2</em>
         </a>
       </div> -->
+      <!-- 头部导航购物车组件 -->
       <AppHeaderCart />
     </div>
   </header>
@@ -23,7 +22,6 @@
 
 <script>
 import AppHeaderNav from '@/components/app-header-nav.vue'
-import AppHeaderSticky from '@/components/app-header-sticky.vue'
 import AppHeaderCart from '@/components/app-header-cart.vue'
 // import { onMounted, ref } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
@@ -31,7 +29,6 @@ export default {
   name: 'AppHeader',
   components: {
     AppHeaderNav,
-    AppHeaderSticky,
     AppHeaderCart
   },
   setup() {

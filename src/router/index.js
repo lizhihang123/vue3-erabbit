@@ -17,7 +17,7 @@ const PayIndex = () => import('@/views/member/pay/index.vue')
 const PayResult = () => import('@/views/member/pay/result.vue')
 const memberHome = () => import('@/views/member/home')
 const memberOrder = () => import('@/views/member/order')
-const memberDetail = () => import('@/views/member/order/MemberDetail')
+const Detail = () => import('@/views/member/order/detail')
 const memberLayout = () => import('@/views/member/pay/Layout')
 const routes = [
   {
@@ -63,7 +63,7 @@ const routes = [
               },
               {
                 path: ':id',
-                component: memberDetail
+                component: Detail
               }
             ]
           }

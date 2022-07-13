@@ -199,6 +199,8 @@ export default {
         Confirm({
           text: '登录后才能结算, 是否进入登录页面'
         }).then(() => {
+          // 使用导航守卫，遇见需要登录的路由跳转，拦截到登录页面
+          // 这个地址是对的，但是因为导航守卫在， 也会跳转到登录页面
           router.push('/member/checkout')
         }).catch(e => {
         })

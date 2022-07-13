@@ -1,43 +1,41 @@
 <template>
-  <!-- 顶部通栏 -->
-  <AppTopnav />
-  <!-- 头部内容 -->
-  <AppHeader />
-  <main>
-      <!-- 二级路由 -->
-    <router-view></router-view>
-  </main>
-  <!-- 底部 -->
-  <AppFooter />
+<!-- 顶部通栏 -->
+<AppNavbar />
+<!-- 头部组件 -->
+<AppHeader />
+<!-- 吸顶头部 -->
+<AppHeaderSticky />
+<!-- 内容容器 -->
+<div class="app-body">
+  <!-- 二级路由 -->
+  <RouterView />
+</div>
+<!-- 底部组件 -->
+<AppFooter />
 </template>
-
 <script>
-import AppTopnav from '@/components/app-topnav.vue'
-import AppHeader from '@/components/app-header.vue'
-import AppFooter from '@/components/app-footer.vue'
+import AppNavbar from '@/components/app-topnav'
+import AppHeader from '@/components/app-header'
+import AppFooter from '@/components/app-footer'
+import AppHeaderSticky from '@/components/app-header-sticky'
 import { useStore } from 'vuex'
-import { computed } from 'vue'
 export default {
+  name: 'Layout',
   components: {
-    AppTopnav,
+    AppNavbar,
     AppHeader,
-    AppFooter
+    AppFooter,
+    AppHeaderSticky
   },
-  setup() {
+  // 获取下分类数据
+  setup () {
     const store = useStore()
     store.dispatch('category/getCategory')
-    const list = computed(() => {
-      return store.state.catagory.list
-    })
-    return { list }
   }
 }
 </script>
-
-<style lang="less" scoped>
-  // @import '../assets/styles/mixin.less';
-  .container {
-    // .box2();
-    .hoverShadow();
-  }
+<style scoped lang="less">
+.app-body {
+  min-height: 600px;
+}
 </style>

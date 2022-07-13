@@ -80,9 +80,9 @@
 </template>
 <script>
 import CheckoutAddress from './components/checkout-address'
-import { createOrder, findOrderInfo } from '@/api/order'
+import { createOrder, findOrderInfo, repurchaseOrderInfo } from '@/api/order'
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import Message from '@/components/library/Message'
 export default {
   name: 'XtxPayCheckoutPage',
@@ -104,16 +104,30 @@ export default {
       buyerMessage: '',
       goods: []
     })
-    findOrderInfo().then(data => {
-      order.value = data.result
-      // 设置提交时候的商品
-      requestParams.goods = order.value.goods.map(item => {
-        return {
-          skuId: item.skuId,
-          count: item.count
-        }
+    const route = useRoute()
+    if (route.query.orderId) {
+      repurchaseOrderInfo(route.query.orderId).then(data => {
+        order.value = data.result
+        // 设置提交时候的商品
+        requestParams.goods = order.value.goods.map(item => {
+          return {
+            skuId: item.skuId,
+            count: item.count
+          }
+        })
       })
-    })
+    } else {
+      findOrderInfo().then(data => {
+        order.value = data.result
+        // 设置提交时候的商品
+        requestParams.goods = order.value.goods.map(item => {
+          return {
+            skuId: item.skuId,
+            count: item.count
+          }
+        })
+      })
+    }
     const router = useRouter()
     // 点击提交订单
     const submitOrder = () => {

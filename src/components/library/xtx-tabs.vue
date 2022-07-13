@@ -15,6 +15,7 @@ export default {
     provide('activeName', activeName)
     const tabClick = (name, index) => {
       activeName.value = name
+      // 暴露一个 tab-click事件
       emit('tab-click', { name, index })
     }
     return {

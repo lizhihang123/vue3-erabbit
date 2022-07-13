@@ -126,7 +126,7 @@ export default {
           // 如果用户已经登录 信息都是接口从后台获取的 无需做额外的更新处理?
           findCartList().then(data => {
             ctx.commit('setCartList', data.result)
-            console.log(data)
+            // console.log(data)
             resolve()
           })
         } else {
