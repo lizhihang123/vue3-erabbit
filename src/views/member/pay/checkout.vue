@@ -117,6 +117,7 @@ export default {
         })
       })
     } else {
+      // 导航栏地址没有id信息 直接调这个接口 得到order
       findOrderInfo().then(data => {
         order.value = data.result
         // 设置提交时候的商品

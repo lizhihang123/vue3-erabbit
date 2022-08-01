@@ -1,41 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="utf-8">
+<title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+<script src="https://cdn.staticfile.org/vue/3.2.36/vue.global.min.js"></script>
 </head>
 <body>
-    <input type="text" placeholder="请输入内容" id="ipt">
-    <script>
-        function debounce(fn, delay) {
-            let timer = null
-            return function() {
-                let that = this
-                let args = arguments
-                if(timer) {
-                    clearTimeout(timer)
-                }
-                timer = setTimeout(() => {
-                    // apply第二个参数是数组 若结构数组会报错
-                    // 这里直接用this也没关系 因为是箭头函数
-                    // console.log(this); // 打印的是input上下文
-                    fn.apply(that, args)
-                }, delay)
-                // timer = setTimeout(function () {
-                //     // console.log(this); // 这里打印的是window
-                //     fn(...args)
-                // }, 500)
-            }
-        }
-        document.querySelector('#ipt').addEventListener('keyup', debounce(function(e) {
-            console.log(e.target.value);
-        }, 500))
+<div id="hello-vue" class="demo">
+  {{ message }}
+  <button @click="fn">点我测试</button>
 
-        var a = 1;
-        debugger
-        console.log(a + 2);
-    </script>
+  {{a}}
+</div>
+
+<script setup>
+
+const HelloVueApp = {
+  data() {
+    return {
+      message: 'Hello Vue!!'
+    }
+  },
+  setup() {
+    // 如果是点击按钮触发的fn 就不会报错 能够输出
+    // const fn = ({a = 10, b = 100}) => {
+    //    console.log(a, b)
+    // }
+    // 如果直接调用fn 就会报错 
+    // fn()
+
+    // 我碰到的场景是 一个接口如下
+    // export const findCollect = (page = 1, pageSize = 4, collectType = 1) => {
+    //     return request('/member/collect', 'get', {
+    //         page: page,
+    //         pageSize: pageSize,
+    //         collectType: collectType
+    //     })
+    // }
+
+    // 某个地方调用findCollect().then(data => {}) 没有传参数 
+    // findCollect()接口里面如果是 这样写 会报错
+    // export const findCollect = ({page = 1, pageSize = 4, collectType = 1}) => {}
+    // 如果这样写 不会报错
+    // export const findCollect = (page = 1, pageSize = 4, collectType = 1) => {}
+
+
+    return {
+      fn
+    }
+  }
+}
+
+Vue.createApp(HelloVueApp).mount('#hello-vue')
+</script>
 </body>
 </html>

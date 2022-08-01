@@ -21,6 +21,15 @@
           <goods-sku :goods="goods" @change="changSku" skuId="300475195" />
           <!-- 商品数量 -->
           <xtx-number :max="goods.inventory" label="数量" v-model="num" />
+          <!-- 收藏 -->
+          <div class="favorite" title="收藏" @click="collect(goods)">
+            <div class="top">
+              <i :class="{active: goods.isCollect}" class="iconfont icon-favorite-filling"></i>
+            </div>
+            <div class="bottom">
+              <p>收藏</p>
+            </div>
+          </div>
           <!-- 按钮组件 - 加入购物车 -->
           <xtx-button @click="insertCart" type="primary" style="margin-top: 20px">加入购物车</xtx-button>
         </div>
@@ -63,6 +72,7 @@ import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { findGoods } from '@/api/product'
 import Message from '@/components/library/Message'
+import { collectGoods, batchCollectGoods } from '@/api/goods'
 export default {
   name: 'XtxGoodsPage',
   components: { GoodsRelevant, GoodsImage, GoodsName, GoodsSales, GoodsSku, GoodsTab, GoodsHot, GoodsWarn },
@@ -149,12 +159,30 @@ export default {
         })
       })
     }
+
+    // 收藏商品
+    const collect = () => {
+      // 未收藏 点击收藏
+      if (!goods.value.isCollect) {
+        // 调接口 收藏商品
+        collectGoods([goods.value.id], 1).then(data => {
+          goods.value.isCollect = true
+        })
+      } else {
+        // 已经收藏 调接口 取消收藏
+        batchCollectGoods([goods.value.id], 1).then(data => {
+          goods.value.isCollect = false
+        })
+      }
+    }
+
     return {
       goods,
       changSku,
       num,
       insertCart,
-      currSku
+      currSku,
+      collect
     }
   }
 }
@@ -182,6 +210,21 @@ const useGoods = () => {
 </script>
 
 <style scoped lang='less'>
+.favorite {
+  display: inline-block;
+  height: 45px;
+  width: 50px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid @xtxColor;
+  margin-right: 10px;
+  cursor: pointer;
+  i {
+    &.active {
+      color: @xtxColor;
+    }
+  }
+}
 .goods-info {
   min-height: 600px;
   background: #fff;

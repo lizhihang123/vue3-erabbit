@@ -19,6 +19,7 @@
           <span>¥{{order.payMoney}}</span>
         </div>
       </div>
+      <div class="loading" v-else></div>
       <!-- 付款方式 -->
       <div class="pay-type">
         <p class="head">选择以下支付方式付款</p>
@@ -77,6 +78,12 @@ export default {
     // 4. 支付地址
     // const payUrl = '后台服务基准地址+支付页面地址+订单ID+回跳地址'
     const redirect = encodeURIComponent('http://www.corho.com:8080/#/pay/callback')
+    // 输出
+    // 'http%3A%2F%2Fwww.corho.com%3A8080%2F%23%2Fpay%2Fcallback'
+    // encodeURIComponent('://')
+    // '%3A%2F%2F'
+    //  A-Z a-z 0-9 - _ . ! ~ * ' ( ) 不会被转译
+
     // !aliPay - 这个拼错了 导致 下回直接粘贴复制过来 就能省力了
     const payUrl = `${baseUrl}pay/aliPay?orderId=${route.query.orderId}&redirect=${redirect}`
     const { start, timeText } = usePayTime()
@@ -95,6 +102,11 @@ export default {
 }
 </script>
 <style scoped lang="less">
+ .loading {
+    height: 240px;
+    width: 100%;
+    background: url(../../../assets/images/loading.gif) no-repeat center;
+  }
 .pay-info {
   background: #fff;
   display: flex;

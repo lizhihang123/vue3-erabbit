@@ -16,7 +16,13 @@
       </HomePanel>
       <!-- 猜你 -->
       <GoodsRelevant />
-      <button @click="fn">点我测试</button>
+      <!-- <button @click="fn">点我测试</button> -->
+      <HomeTest>
+        <span class="good">
+          我来测试插槽语法
+        </span>
+      </HomeTest>
+      <span class="test">我来测试全局作用域语法</span>
   </div>
 </template>
 
@@ -25,15 +31,18 @@ import HomeView from './components/home-overview'
 import HomePanel from './components/home-panel'
 import GoodsRelevant from '@/views/goods/component/goods-relevant'
 import GoodsItem from '@/views/category/components/goods-item'
+import HomeTest from './components/home-test'
 import { ref } from 'vue'
 import { findBrowerHistory, findCollect } from '@/api/member'
+// import { request } from '@/utils/request'
 export default {
   name: 'MemberHome',
   components: {
     HomeView,
     HomePanel,
     GoodsRelevant,
-    GoodsItem
+    GoodsItem,
+    HomeTest
   },
   setup() {
     // const good = {
@@ -43,12 +52,13 @@ export default {
     //   desc: '清汤鲜香 红汤劲爽',
     //   price: '159.00'
     // }
-    const good = ref(null)
+    // const good = ref(null)
     // my/test测试mockjs
     // request('/my/test', 'get').then(data => {
-    //   // good.value = data.result
+    //   good.value = data.result
     //   console.log(data)
     // })
+
     const collectGoods = ref(null)
     findCollect().then(data => {
       collectGoods.value = data.result.items
@@ -59,23 +69,21 @@ export default {
       console.log(data)
       browserGoods.value = data.result.items
     })
-    const fn = ({ a = 10, b = 100 }) => {
-      console.log(a + b)
-    }
+    // const fn = ({ a = 10, b = 100 }) => {
+    //   console.log(a)
+    //   console.log(b)
+    //   console.log(a + b)
+    // }
+    // fn()
     return {
-      good,
+      // good,
       collectGoods,
-      browserGoods,
-      fn
+      browserGoods
     }
   }
 }
 </script>
 <style scoped lang="less">
-.member-home {
-
-}
-
 :deep(.goods-list) {
 display: flex;
 justify-content: space-around;

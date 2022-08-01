@@ -47,3 +47,23 @@ export const findCommentList = (id, params) => {
 // export const findCommentInfoByGoods = (id) => {
 //   return request(`https://mock.boxuegu.com/mock/1175/goods/${id}/evaluate`)
 // }
+
+/**
+ * @name: 收藏商品
+ * @param {*} ids 可以传递多个
+ * @param {*} type 1为商品，2为专题，3为品牌
+ * @return {*}
+ */
+export const collectGoods = (collectObjectIds, collectType) => {
+  return request('/member/collect', 'post', { collectObjectIds, collectType })
+}
+
+/**
+ * @name: 取消收藏
+ * @param {*} ids 可以传递多个
+ * @param {*} type 1为商品，2为专题，3为品牌
+ * @return {*}
+ */
+export const batchCollectGoods = (collectObjectIds, collectType) => {
+  return request('/member/collect/batch', 'delete', { collectObjectIds, collectType })
+}

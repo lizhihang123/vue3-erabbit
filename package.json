@@ -5,16 +5,20 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "preview": "node build/index.js --preview"
   },
   "dependencies": {
     "@vueuse/core": "^4.9.0",
     "axios": "^0.26.1",
+    "connect": "^3.6.6",
     "core-js": "^3.6.5",
     "dayjs": "^1.11.3",
     "mockjs": "^1.1.0",
     "normalize.css": "^8.0.1",
     "qs": "^6.11.0",
+    "runjs": "4.3.2",
+    "serve-static": "^1.13.2",
     "vee-validate": "^4.0.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
