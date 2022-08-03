@@ -7,7 +7,7 @@ import request from '@/utils/request'
  * @param {*} collectType - 1为商品 2为专题 3为品牌
  * @return {*}
  */
-export const findCollect = ({ page = 1, pageSize = 4, collectType = 1 }) => {
+export const findCollect = (page = 1, pageSize = 4, collectType = 1) => {
   return request('/member/collect', 'get', {
     page: page,
     pageSize: pageSize,

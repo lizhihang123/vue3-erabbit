@@ -14,6 +14,7 @@
           <goods-image :images="goods.mainPictures"/>
           <goods-sales />
         </div>
+        <!-- 商品详情 -->
         <div class="spec">
           <!-- 商品名称 -->
           <goods-name :goods="goods" />
@@ -36,7 +37,7 @@
       </div>
       <!-- 3. 商品推荐 -->
       <goods-relevant :goodsId="goods.id" />
-      <!-- 4. 商品详情 -->
+      <!-- 4. 商品底部信息 -->
       <div class="goods-footer">
         <div class="goods-article">
           <!-- 商品+评价 -->
@@ -55,6 +56,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="loading" v-else>
   </div>
 </template>
 
@@ -259,5 +262,10 @@ const useGoods = () => {
   min-height: 600px;
   background: #fff;
   margin-top: 20px;
+}
+.loading {
+    height: 600px;
+    width: 100%;
+    background: url(../../assets/images/loading.gif) no-repeat center;
 }
 </style>

@@ -34,12 +34,12 @@ module.exports = {
       ]
     }
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config.module
       .rule('images')
       .use('url-loader')
       .loader('url-loader')
-      .tap(options => Object.assign(options, { limit: 10000 }))
+      .tap((options) => Object.assign(options, { limit: 10000 }))
     config.devServer.disableHostCheck(true)
   },
   configureWebpack: {
@@ -47,6 +47,15 @@ module.exports = {
       qc: 'QC'
       // 假如要忽略vue-router
       // 'vue-router': 'VueRouter'
+    }
+  },
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://pcapi-xiaotuxian-front-devtest.itheima.net/',
+        changeOrigin: true
+        // pathRewrite ''
+      }
     }
   }
 }

@@ -155,6 +155,7 @@ export default {
     }
     // 切换地址
     const changeAddress = (id) => {
+      console.log(id)
       requestParams.addressId = id
     }
     const deleteAddressFn = (data) => {

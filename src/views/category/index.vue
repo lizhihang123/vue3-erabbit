@@ -15,10 +15,10 @@
         <h3>全部分类</h3>
         <ul>
           <li v-for="sub in topCategory.children" :key="sub.id">
-            <a href="javascript:;">
+            <RouterLink :to="`/category/sub/${sub.id}`">
               <img :src="sub.picture" />
               <p>{{ sub.name }}</p>
-            </a>
+            </RouterLink>
           </li>
         </ul>
       </div>
@@ -66,6 +66,8 @@ export default {
       if (item) {
         cate = item
       }
+      console.log(item)
+      console.log(cate)
       return cate
     })
     // 分类关联的商品数据

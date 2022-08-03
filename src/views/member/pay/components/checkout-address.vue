@@ -45,7 +45,7 @@
   <address-edit ref="addressEdit" @on-success="successHandler" />
 </template>
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import xtxDialog from '@/components/library/xtx-dialog.vue'
 import XtxButton from '@/components/library/xtx-button'
 import AddressEdit from './address-edit'
@@ -172,6 +172,13 @@ export default {
         }
       })
     }
+
+    // 监听 showAddress的值是否变化
+    watch(() => showAddress, (newVal) => {
+      emit('change', newVal.value ? newVal.value.id : null)
+    }, {
+      deep: true
+    })
 
     return {
       showAddress,

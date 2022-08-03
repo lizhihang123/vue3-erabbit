@@ -11,8 +11,8 @@
                 <li v-for="item in goods" :key="item.id">
                   <RouterLink :to="`/product/${item.id}`">
                     <img v-lazy="item.picture" alt="">
-                    <p class="name ellipsis">{{item.name}}</p>
-                    <p class="price">&yen;{{item.price}}</p>
+                    <p class="name ellipsis">{{item.title}}</p>
+                    <p class="price">&yen;100</p>
                   </RouterLink>
                 </li>
               </ul>
@@ -37,6 +37,7 @@ export default {
   },
   setup() {
     const { result, target } = useLazyData(findNew)
+    console.log('111', result)
     return { goods: result, target }
   }
 }
